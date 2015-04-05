@@ -35,22 +35,22 @@ func Union(params *UnionFeedParams, feeds ...*rss.Feed) *rss.Feed {
         Image: params.Image,
     }
 
-    uniqItems := make(map[string]*rss.Item)
+    uniqueItems := make(map[string]*rss.Item)
     items := make([]*rss.Item, 0)
 
     for _, feed := range feeds {
         for _, item := range feed.Items {
             if item.ID != "" {
-                uniqItems[item.ID] = item
+                uniqueItems[item.ID] = item
             } else if item.Link != "" {
-                uniqItems[item.Link] = item
+                uniqueItems[item.Link] = item
             } else {
                 items = append(items, item)
             }
         }
     }
 
-    for _, item := range uniqItems {
+    for _, item := range uniqueItems {
         items = append(items, item)
     }
 
@@ -58,6 +58,25 @@ func Union(params *UnionFeedParams, feeds ...*rss.Feed) *rss.Feed {
     sort.Sort(sortedItems)
 
     result.Items = items
-
     return result
+}
+
+
+func UnionFutures(params *UnionFeedParams, futureFeeds ...FutureFeed) (result *rss.Feed, err error) {
+    feeds := make([]*rss.Feed, len(futureFeeds))
+
+    for i, futureFeed := range(futureFeeds) {
+        futureResult := <-futureFeed
+        feeds[i] = futureResult.Feed
+
+        if futureResult.Err != nil {
+            err = futureResult.Err
+        }
+    }
+
+    if err != nil {
+        result = Union(params, feeds...)
+    }
+
+    return
 }
