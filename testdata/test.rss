@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+	<title>Хабрахабр / Интересные публикации</title>
+	<link>http://habrahabr.ru/</link>
+	<description><![CDATA[Интересные публикации на Хабрахабре]]></description>
+	<language>ru</language>
+	<managingEditor>editor@habrahabr.ru</managingEditor>
+	<generator>habrahabr.ru</generator>
+	<pubDate>Sun, 05 Apr 2015 07:57:37 GMT</pubDate>
+	<lastBuildDate></lastBuildDate>
+        <image>
+            <link>http://habrahabr.ru/</link>
+            <url>http://habrahabr.ru/i/logo.gif</url>
+            <title>Хабрахабр</title>
+        </image>
+					<item>
+		<title><![CDATA[На вкус и цвет 2 – не RGB единым]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254895/</guid>
+		<link>http://habrahabr.ru/post/254895/</link>
+		<description><![CDATA[<br/>Приветствую всех читателей. Попробуем продолжить нашу затею, начало которой <a href="http://habrahabr.ru/post/254797/#first_unread">здесь</a>.<br/>
+<br/>
+Итак, мы имеем кастомную View с разноцветным кружочком, из которого теперь необходимо выдернуть выбранный пользователем цвет. Перед тем как окунуться в дебри расчетов давайте для начала организуем какие-нибудь маркеры-указатели выбранного цвета.  <a href="http://habrahabr.ru/post/254895/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Sat, 04 Apr 2015 07:00:13 GMT</pubDate>
+		<author>OJV</author>
+		<category><![CDATA[Разработка под Android]]></category><category><![CDATA[Программирование]]></category>
+		<category><![CDATA[Андроид]]></category><category><![CDATA[canvas]]></category><category><![CDATA[colorpicker]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Реактивное программирование в табличном процессоре]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254569/</guid>
+		<link>http://habrahabr.ru/post/254569/</link>
+		<description><![CDATA[<br/><img src="//habrastorage.org/files/ffa/4b3/fb8/ffa4b3fb80de44858aff8cca21189cf2.png"/><br/>
+<br/>
+Табличный процессор (речь идет о MS Excel или LibreOffice Calc) — это довольно занятный и универсальный инструмент. Мне часто приходилось (и приходится) пользоваться его широкими возможностями: автоматизированные отчеты, проверка гипотез, прототипирование алгоритмов. Например, я использовал его для решения задач <a href="https://projecteuler.net/archives">проекта Эйлер</a>, быстрой проверки алгоритмов, реализовал парсер одного прикладного протокола (по работе надо было). Мне нравится наглядность, которую можно добиться в табличном процессоре, а еще мне нравится нестандартное применение всего, чего только возможно. На Хабре уже появлялись интересные статьи на тему нестандартного применения Excel:<br/>
+<a href="http://habrahabr.ru/post/246975/">«Assembler в 30 строк на Excel»</a><br/>
+<a href="http://habrahabr.ru/post/237641/">Чем заняться айтишнику в армии или как я на VBA игры писал</a><br/>
+<a href="http://habrahabr.ru/post/174373/">«RPG-игра в рабочей книге Excel»</a><br/>
+<br/>
+В этой длинной статье я хочу поделиться своими экспериментами в <a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">реактивном программировании</a> с помощью формул табличного процессора. В результате этих экспериментов у меня получился «компьютер» с процессором, памятью, стеком и дисплеем, реализованный внутри LibreOffice Calc при помощи одних только формул (за исключением тактового генератора), который можно программировать на неком подобии ассемблера. Затем, в качестве примера и proof-of-concept, я написал игру «Змейка» и <s>бегущую</s>ползущую строку для этого компьютера.<br/>
+ <a href="http://habrahabr.ru/post/254569/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Sat, 04 Apr 2015 16:43:34 GMT</pubDate>
+		<author>arjunarus</author>
+		<category><![CDATA[Ненормальное программирование]]></category><category><![CDATA[Assembler]]></category>
+		<category><![CDATA[реактивное программирование]]></category><category><![CDATA[табличный процессор]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Web Bundle — дело RarJPEG живет]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254907/</guid>
+		<link>http://habrahabr.ru/post/254907/</link>
+		<description><![CDATA[<br/>На днях состоялся первый релиз набора инструментов для упаковки различных веб-ресурсов в один файл — <a href="https://github.com/haxorplatform/web-bundle">Web Bundle</a>. Принцип его работы точно такой же, как для ресурсов, включаемых в EXE файлы — произвольные файлы упаковываются в один файл-контейнер, а на клиентской стороне доступ к ним организуется по имени файла с помощью API. Только в данном случае в качестве контейнера используется изображение в формате PNG. Клиентская часть представляет из себя небольшую JS-библиотечку, позволяющую загружать, декодировать и извлекать отдельные файлы из таких ресурсов.<br/>
+ <a href="http://habrahabr.ru/post/254907/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Sat, 04 Apr 2015 12:09:33 GMT</pubDate>
+		<author>ComodoHacker</author>
+		<category><![CDATA[Клиентская оптимизация]]></category><category><![CDATA[Веб-разработка]]></category><category><![CDATA[JavaScript]]></category>
+		<category><![CDATA[JavaScript]]></category><category><![CDATA[ресурсы]]></category><category><![CDATA[упаковка в контейнеры]]></category><category><![CDATA[rarjpeg]]></category><category><![CDATA[rarpng]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Универсальный Nixie-модуль на ИН-12]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254901/</guid>
+		<link>http://habrahabr.ru/post/254901/</link>
+		<description><![CDATA[<br/><img src="//habrastorage.org/files/efe/316/79f/efe31679f5d64b34b77487a062a6f691.jpg"/><br/>
+<br/>
+Оригинальные технические решения прошлого зачастую вызывают сегодня умиление и восторг, а если не имеют прямого современного аналога, то вполне могут продолжать свое существование — так рождается дикий микс из компонентов, разница в возрасте которых составляет десятки лет.<br/>
+<br/>
+<a href="http://habrahabr.ru/post/253069/">В прошлый раз</a> я с подобным чувством сооружал чиптюновый модуль на AY-3-8912. Результатом остался чрезвычайно доволен, но отмечу, что законченным изделием он не является. Как и герой данного материала, блок газоразрядных индикаторов ИН-12.<br/>
+<br/>
+Часики на ИНках на Хабре фигурировали не раз (например <a href="http://habrahabr.ru/post/170551/">1</a>, <a href="http://habrahabr.ru/post/173637/">2</a>, <a href="http://habrahabr.ru/post/143568/">3</a>), поэтому поста в стиле «Yet another Nixie clock» не будет. Сосредоточусь на том, чтобы кратко и емко изложить идею блока индикации и особенности реализации.<br/>
+<br/>
+ <a href="http://habrahabr.ru/post/254901/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Sat, 04 Apr 2015 10:28:19 GMT</pubDate>
+		<author>eta4ever</author>
+		<category><![CDATA[Электроника для начинающих]]></category><category><![CDATA[Raspberry Pi]]></category><category><![CDATA[DIY или Сделай Сам]]></category>
+		<category><![CDATA[nixie clock]]></category><category><![CDATA[ИН-12]]></category><category><![CDATA[теплый ламповый]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Шифрование в NQ Vault оказалось обычным XOR-ом, и это не самое плохое]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254899/</guid>
+		<link>http://habrahabr.ru/post/254899/</link>
+		<description><![CDATA[<br/><a href="https://play.google.com/store/apps/details?id=com.netqin.ps">NQ Vault</a> — довольно популярное (30 млн. пользователей) Android приложение (есть версия и для iOS), позволяющее зашифровать выбранные SMS, фотографии и видео на устройстве. Просмотреть зашифрованный контент можно через приложение, введя пароль. Приложение получило хорошие отзывы и обзоры в ведущих ИТ изданиях.<br/>
+<br/>
+Пользователь GitHub <a href="https://github.com/ninjadoge24">ninjadoge24</a> решил проверить, насколько хорошо приложение защищает приватные данные.<br/>
+ <a href="http://habrahabr.ru/post/254899/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Sat, 04 Apr 2015 10:19:58 GMT</pubDate>
+		<author>ComodoHacker</author>
+		<category><![CDATA[Разработка под Android]]></category><category><![CDATA[Информационная безопасность]]></category><category><![CDATA[Mobile Development]]></category>
+		<category><![CDATA[NQ Vault]]></category><category><![CDATA[шифрование]]></category><category><![CDATA[XOR]]></category><category><![CDATA[security by obscurity]]></category><category><![CDATA[epic fail]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Из песочницы] WPF: использование Attached Property и Behavior]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254887/</guid>
+		<link>http://habrahabr.ru/post/254887/</link>
+		<description><![CDATA[<br/>Пожалуй, любой разработчик WPF знает о механизме Attached Property, но многие даже не слышали о Behavior. Хотя эти механизмы и имеют схожие функциональные возможности, они, все же, имеют совершенно разную смысловую нагрузку, и очень важно правильно различать их и использовать.<br/>
+<br/>
+Давайте вспомним, что из себя представляют эти механизмы: <a href="http://habrahabr.ru/post/254887/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 16:50:06 GMT</pubDate>
+		<author>AndyD</author>
+		<category><![CDATA[Разработка под Windows]]></category><category><![CDATA[.NET]]></category>
+		<category>wpf</category><category>attached properties</category><category>behavior</category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Перевод] Лучшая иконка — текст]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254881/</guid>
+		<link>http://habrahabr.ru/post/254881/</link>
+		<description><![CDATA[<br/><blockquote>Если не можешь сказать коротко и ясно, скажи длинно и ясно, но только не коротко и непонятно.<br/>
+
+<a href="http://habrahabr.ru/users/janatem/" class="user_link">janatem</a></blockquote> <br/>
+<br/>
+Давайте поговорим об иконках. Они являются частью многих интерфейсов. Проблема заключается в том, что под их влиянием может быть разрушена ясность происходящего.<br/>
+<br/>
+Пиктограммы были использованы еще с первых дней человечества. Они очень часто могут быть замечены в качестве попыток проявления письменности. Некоторые неграмотные люди до сих пор используют их для передачи информации.<br/>
+<br/>
+<img src="//habrastorage.org/files/92a/a36/446/92aa364463744d36b0a7035520fdf85b.jpg"/><br/>
+<br/>
+В общественных местах иконки часто используют для навигации, например, в международных аэропортах, где надписей на местном языке явно будет не хватать. <br/>
+<br/>
+<img src="//habrastorage.org/files/eb8/60b/881/eb860b881c444802a1b4964dd576054f.jpg"/> <a href="http://habrahabr.ru/post/254881/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 15:22:14 GMT</pubDate>
+		<author>alexandfox</author>
+		<category><![CDATA[Типографика]]></category><category><![CDATA[Работа с иконками]]></category><category><![CDATA[Интерфейсы]]></category><category><![CDATA[Веб-разработка]]></category><category><![CDATA[Веб-дизайн]]></category>
+		<category>иконки</category><category>подписи</category><category>надписи</category><category>навигация</category><category>текст</category><category>значки</category>
+	</item>
+
+		<item>
+		<title><![CDATA[IBM PC своими руками — это очень просто]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254879/</guid>
+		<link>http://habrahabr.ru/post/254879/</link>
+		<description><![CDATA[<br/><img src="http://habrastorage.org/files/d86/365/d90/d86365d90b324c4a997306c7474cdbf4.png" alt="image"/><br/>
+<br/>
+После того, как я воплотил свою давнишнюю мечту и все-таки (хотя и с опозданием почти на 30 лет) <a href="http://habrahabr.ru/post/202010/">построил Радио 86РК</a>, некоторое время мне казалось, что на этой части моей истории поставлена вполне достойная точка.<br/>
+ <br/>
+Тем не менее, обнаружилось, что болезнь до конца не вылечена, и она вернулась еще более острым рецидивом. Наверное, сказались как неожиданно успешный опыт постройки 86РК, так и то, что у меня в ходе данного процесса образовалось довольно большое количество весьма притягательно выглядящих инструментов, приборов и деталей, которым очень хотелось найти применение.<br/>
+В конце концов ломка стала нестерпимой, и мне пришлось снова взяться за паяльник, а также вспомнить некоторые другие навыки из прошлого. Что из этого получилось, можно увидеть вместе с некоторым количеством картинок и очень (повторяю – ОЧЕНЬ) большим количеством букв (и даже не букв, а страниц) дальше…<br/>
+ <a href="http://habrahabr.ru/post/254879/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 15:36:50 GMT</pubDate>
+		<author>curiousGeorge</author>
+		<category><![CDATA[Электроника для начинающих]]></category><category><![CDATA[Программирование микроконтроллеров]]></category><category><![CDATA[FPGA]]></category><category><![CDATA[DIY или Сделай Сам]]></category>
+		<category><![CDATA[старое железо]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Написание скрипта расстановки элементов по кругу для Eagle CAD]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254861/</guid>
+		<link>http://habrahabr.ru/post/254861/</link>
+		<description><![CDATA[<br/><img align="left" width="300" src="//habrastorage.org/files/9ef/2f1/fb4/9ef2f1fb4ada4d2c94d2a1e1b07f9d4d.jpg"/><br/>
+Некоторое время назад я задался вопросом равномерной круговой расстановки элементов на печатной плате. Сначала расставлял вручную через полярные координаты, потом сгенерировал последовательность команд для всех 30 элементов и разом выполнил все в командной строке Орла. Сегодня же я затрону тему написания собственного ULP скрипта Eagle Cad для равномерной и автоматической расстановки элементов по кругу.<br/>
+ <a href="http://habrahabr.ru/post/254861/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 12:48:04 GMT</pubDate>
+		<author>oWart</author>
+		<category><![CDATA[Электроника для начинающих]]></category><category><![CDATA[DIY или Сделай Сам]]></category><category><![CDATA[CAD/CAM]]></category>
+		<category><![CDATA[eagle]]></category><category><![CDATA[ulp]]></category><category><![CDATA[скрипт]]></category><category><![CDATA[расстановка по кругу]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Dell выпустила защищенный дата-центр для военных]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254859/</guid>
+		<link>http://habrahabr.ru/post/254859/</link>
+		<description><![CDATA[<br/><h5>Big Data идет на войну</h5><br/>
+<img src="https://regmedia.co.uk/2012/07/17/dell_tactical_dc_copter.jpg?x=648&amp;y=429&amp;crop=1"/><br/>
+ <br/>
+Обработка данных сейчас нужна везде, особенно в этом нуждаются военные, безразлично, в штабе или в полевых условиях. Но для военных может быть затруднительно поддерживать связь с дата-центром, находящимся за сотни или даже тысячи километров от места военных действий. Но почему бы не взять дата-центр с собой? Именно такое решение предлагает компания Dell, анонсировавшая свой Tactical Mobile Data Center.<br/>
+ <br/>
+Естественно, такая система может использоваться не только военными, но и учеными, нефтяниками, геологами, всеми, кому нужны вычислительная мощь, причем практически каждый день. Tactical Mobile Data Center основан в модифицированном контейнере ISU-96, который обычно используется военными, и часто снабжается охлаждающей установкой. Размещение компьютерных систем в таком контейнере, уже зарекомендовавшем себя как надежная защита при перевозках, вполне логичный шаг.<br/>
+ <a href="http://habrahabr.ru/post/254859/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 12:06:01 GMT</pubDate>
+		<author>itNews</author>
+		<category><![CDATA[Сетевые технологии]]></category><category><![CDATA[ИТ-инфраструктура]]></category><category><![CDATA[Высокая производительность]]></category><category><![CDATA[Блог компании King Servers]]></category>
+		<category><![CDATA[big data]]></category><category><![CDATA[dell]]></category><category><![CDATA[дата центры]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Свежие срезы по популярности CMS-систем, счетчиков/систем аналитики и онлайн-консультантов]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254875/</guid>
+		<link>http://habrahabr.ru/post/254875/</link>
+		<description><![CDATA[<br/>Привет, Хабр. С момента предыдущего среза прошло примерно 5 месяцев, и <a href="http://track.ruward.ru">Ruward:Track</a> обновил данные по первому кварталу 2015 года. В основу исследования лег автоматический анализ краулером около 5 миллионов доменов зоны .RU (по типовым сигнатурам сервисов). <br/>
+<br/>
+<h4><a href="http://track.ruward.ru/cms">Свежий срез по популярности CMS-систем</a></h4><br/>
+<br/>
+<a href="http://track.ruward.ru/cms"><img src="http://habrastorage.org/getpro/habr/post_images/3eb/c82/2f4/3ebc822f442b76149c0978c9e352b878.png" alt="image"/></a><br/>
+<br/>
+Ряд экспертов утверждал, что с учетом кризиса продажи коммерческих систем будут падать, а разработчики будет переходить на open-source решения. Пока этого не происходит — Битрикс и UMI наращивают долю рынка (как и Wordpress), а Joomla и Drupal теряют позиции. <a href="http://habrahabr.ru/post/254875/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 13:43:33 GMT</pubDate>
+		<author>Terekhov</author>
+		<category><![CDATA[Веб-разработка]]></category><category><![CDATA[CMS]]></category><category><![CDATA[Блог компании Ruward]]></category>
+		<category><![CDATA[ruward track]]></category><category><![CDATA[рейтинг cms]]></category><category><![CDATA[рейтинг систем аналитики]]></category><category><![CDATA[онлайн-консультанты]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Перевод] Анонс альфа-версии TypeScript 1.5]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254867/</guid>
+		<link>http://habrahabr.ru/post/254867/</link>
+		<description><![CDATA[<br/>Сегондя мы анонсируем альфа-версию TypeScript 1.5, первую превью-версию предстоящего релиза TS1.5. Эта версия дает возможность познакомиться со многими новыми возможностями, которые мы планируем включить в финальный релиз. <br/>
+<br/>
+<img src="//habrastorage.org/files/9c5/2f4/d69/9c52f4d69efc4bf1b570dcfa68a68bcc.JPG"/><br/>
+<br/>
+Три ключевые новые вещи, которые мы добавляем в инструменты TypeScript: более богатый опыт работы с ES6, декораторы и новый <a href="https://github.com/Microsoft/TypeScript-Sublime-Plugin">плагин для Sublime Text</a>.<br/>
+<br/>
+Вы можете попробовать альфа-версию сегодня, установив новый компилятор через <a href="https://www.npmjs.com/package/typescript">npm</a>.<br/>
+ <a href="http://habrahabr.ru/post/254867/#habracut">Подробности под хабракатом</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 13:21:26 GMT</pubDate>
+		<author>kichik</author>
+		<category><![CDATA[Блог компании Microsoft]]></category>
+		<category>typescript</category><category>typescript 1.5</category><category>es6</category><category>ecmascript 6</category><category>sublime text</category><category>plugin</category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Перевод] Статический анализ кода]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254855/</guid>
+		<link>http://habrahabr.ru/post/254855/</link>
+		<description><![CDATA[<br/><img src="http://habrastorage.org/getpro/habr/post_images/e15/67a/a6d/e1567aa6d6c4345696511cff8ff8430d.png" alt="John Carmack" align="left"/><i><b>Примечание от переводчика</b>. Изначально эта статья была опубликована на сайте AltDevBlogADay. Но сайт, к сожалению, прекратил своё существование. Более года эта статья оставалась недоступна читателям. Мы обратились к <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%80%D0%BC%D0%B0%D0%BA,_%D0%94%D0%B6%D0%BE%D0%BD">Джону Кармаку</a>, и он сказал, что не против, чтобы мы разместили эту статью на нашем сайте. Что мы с удовольствием и <a href="http://www.viva64.com/en/a/0087/">сделали</a>. С оригиналом статьи можно познакомится, воспользовавшись Wayback Machine — Internet Archive: <a href="http://web.archive.org/web/20120422160515/http:/altdevblogaday.com/2011/12/24/static-code-analysis">Static Code Analysis</a>.<br/>
+<br/>
+Поскольку все статьи на нашем сайте представлены на русском и английском языке, то мы выполнили перевод статьи Static Code Analysis на русский язык. А заодно решили опубликовать её на Хабре. Здесь уже публиковался <a href="http://habrahabr.ru/post/135234/">пересказ этой статьи</a>. Но уверен, многим будет интересно прочитать именно перевод.</i><br/>
+<br/>
+Самым главным своим достижением в качестве программиста за последние годы я считаю знакомство с методикой статического анализа кода и ее активное применение. Дело даже не столько в сотнях серьезных багов, не допущенных в код благодаря ей, сколько в перемене, вызванной этим опытом в моем программистском мировоззрении в отношении вопросов надежности и качества программного обеспечения.<br/>
+ <a href="http://habrahabr.ru/post/254855/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 11:54:12 GMT</pubDate>
+		<author>Andrey2008</author>
+		<category><![CDATA[Совершенный код]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[C++]]></category><category><![CDATA[C]]></category><category><![CDATA[Блог компании PVS-Studio]]></category>
+		<category>статический анализ кода</category><category>джон кармак</category><category>совершенный код</category><category>программирование</category><category>ошибки в программе</category><category>качество кода</category><category>си</category><category>си++</category><category>разработка игр</category><category>разработка программного обеспечения</category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Перевод] Построение аналитических выражений… для любых объектов — от теоремы Пифагора до розовой пантеры и сэра Исаака Ньютона в Wolfram Language (Mathematica)]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254841/</guid>
+		<link>http://habrahabr.ru/post/254841/</link>
+		<description><![CDATA[<br/><div style="text-align:center;"><img src="//habrastorage.org/files/19c/b0d/36a/19cb0d36a7b043a9ae9c9f4310f33782.png"  width="800"/></div><br/>
+<i>Перевод поста Майкла Тротта (Michael Trott) &quot;<a href="http://blog.wolfram.com/2013/05/17/making-formulas-for-everything-from-pi-to-the-pink-panther-to-sir-isaac-newton/">Making Formulas… for Everything—From Pi to the Pink Panther to Sir Isaac Newton</a>&quot;.<br/>
+Выражаю благодарность за помощь в переводе <a href="http://vk.com/id211809242">Сильвии Торосян</a>.<br/>
+Скачать перевод в виде документа Mathematica, который содержит весь код использованный в статье, можно <a href="http://goo.gl/qo7hZr">здесь</a> (архив, ~7 МБ).</i><br/>
+<br/>
+В компании <a href="http://www.wolfram.com/">Wolfram Research</a> и <a href="http://www.wolframalpha.com/">Wolfram|Alpha</a> мы любим математику и вычисления. Наши любимые темы — алгоритмы, следующие из формул и уравнений. Например, <i>Mathematica</i> может вычислить миллионы интегралов (точнее бесконечное их количество, встречающихся на практике), а также Wolfram|Alpha знает сотни тысяч математических формул (от <a href="http://www.wolframalpha.com/input/?i=Euler%27s+formula">формулы Эйлера</a> и <a href="http://www.wolframalpha.com/input/?i=BBP-type+formulas+for+pi">BBP-формул для Pi</a> до <a href="http://www.wolframalpha.com/input/?i=complicated+definite+integrals+containing+sin%28x%29">сложных определённых интегралов, содержащих sin (x)</a>) и множество формул физики (например, от <a href="http://www.wolframalpha.com/input/?i=Poiseuille%27s+law">закона Пуазейля</a> до <a href="http://www.wolframalpha.com/input/?i=classical+mechanics+solutions+of+a+point+particle+in+a+rectangle">классических решений механики для точечной частицы в прямоугольнике</a> или <a href="http://www.wolframalpha.com/input/?i=inverse%E2%80%90distance+potential+in+4D+in+hyperspherical+coordinates&amp;amp;lk=1&amp;amp;a=ClashPrefs_*PhysicalSystems.InverseDistancePotential4DHypersphericalCoordinates-">потенциала обратного расстояния в четырехмерном пространстве, в гиперсферических координатах</a>), так же как менее известные формулы, такие как формулы для<a href="http://www.wolframalpha.com/input/?i=shaking+frequency+of+a+wet+dog"> частоты дрожащей мокрой собаки</a>, <a href="http://www.wolframalpha.com/input/?i=maximal+height+of+a+sandcastle">максимальной высоты песочного замка</a>, или <a href="http://www.wolframalpha.com/input/?i=cooking+time+of+a+turkey">времени приготовления индейки</a>.<br/>
+ <a href="http://habrahabr.ru/post/254841/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 10:10:58 GMT</pubDate>
+		<author>OsipovRoman</author>
+		<category><![CDATA[Программирование]]></category><category><![CDATA[Обработка изображений]]></category><category><![CDATA[Математика]]></category><category><![CDATA[Алгоритмы]]></category><category><![CDATA[Блог компании Wolfram Research]]></category>
+		<category>wolfram language</category><category>wolfram mathematica</category><category>ряд фурье</category><category>векторизация растровых изображений</category>
+	</item>
+
+		<item>
+		<title><![CDATA[Traffic Inspector: полная перезагрузка]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254741/</guid>
+		<link>http://habrahabr.ru/post/254741/</link>
+		<description><![CDATA[<br/><b>Привет, Хабр!</b> Почти 12 лет назад мы, компания <a href="http://www.smart-soft.ru/ru/">Смарт-Софт</a>, выпустили первую версию своего флагманского продукта <a href="http://www.smart-soft.ru/ru/products/Traffic-Inspector/"><b>Traffic Inspector</b></a>. За это время он превратился из обычного прокси-сервера в универсальный шлюз безопасности, сочетающий в себе функционал прокси, почтового, антиспам, веб серверов со служебными модулями Phishing Blocker, RBL, RAS Dialer, плагином фильтрации контента NetPolice, продвинутой системой биллинга, прошедшей сертификацию ССС и ФСТЭК, и возможностью учёта разных типов трафика (IMAP, SMTP, POP, NAT и прокси).<br/>
+<br/>
+Как и в любом серьезном продукте, в Traffic Inspector с течением эволюции наблюдались недостатки. Сегодня мы резюмируем работу над ошибками, которая была проведена специалистами нашей компании за последние пару лет.<br/>
+<br/>
+<a href="http://habrahabr.ru/company/smart_soft/blog/254741/"><img src="http://habrastorage.org/files/c42/dd3/c5b/c42dd3c5b2aa49c688a5854c4f095ccf.png"/></a><br/>
+ <a href="http://habrahabr.ru/post/254741/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 09:53:58 GMT</pubDate>
+		<author>Smart_Soft</author>
+		<category><![CDATA[Системное администрирование]]></category><category><![CDATA[Информационная безопасность]]></category><category><![CDATA[ИТ-инфраструктура]]></category><category><![CDATA[Блог компании Smart-Soft]]></category>
+		<category><![CDATA[интернет]]></category><category><![CDATA[безопасность]]></category><category><![CDATA[контентная фильтрация]]></category><category><![CDATA[прокси-сервер]]></category><category><![CDATA[traffic inspector]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[IBM и Semtech представили новую сетевую технологию LoRaWAN для М2М-коммуникаций]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254827/</guid>
+		<link>http://habrahabr.ru/post/254827/</link>
+		<description><![CDATA[<br/><img src="//habrastorage.org/files/c62/23e/ba5/c6223eba5b354eada4aae00c8f59dc15.jpg"/><br/>
+<br/>
+Исследовательский центр IBM Research и компания Semtech представили новую энергоэффективную сетевую технологию на базе WAN, которая предлагает значительные преимущества перед сотовыми сетями и WiFi благодаря возможности развертывания межмашинных (M2M) коммуникаций. <br/>
+<br/>
+В течение многих лет огромный потенциал Интернета вещей, который заключается в сборе и анализе данных пользовательских устройств с целью дальнейшего принятия решений, не был раскрыт ввиду таких технических факторов, как ограниченный срок действия аккумулятора, передача информации на короткие расстояния, высокие затраты и недостаток необходимых стандартов. <br/>
+ <a href="http://habrahabr.ru/post/254827/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 08:44:50 GMT</pubDate>
+		<author>marks</author>
+		<category><![CDATA[Сетевые технологии]]></category><category><![CDATA[Блог компании IBM]]></category>
+		<category><![CDATA[LPWAN]]></category><category><![CDATA[ibm]]></category><category><![CDATA[LoRaWAN]]></category><category><![CDATA[Semtech]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Разработка ММО РПГ – практическое руководство. Эпизод 1]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254799/</guid>
+		<link>http://habrahabr.ru/post/254799/</link>
+		<description><![CDATA[<br/><table>
+<tr>
+<td><img src="http://habrastorage.org/files/ba4/3da/43c/ba43da43cdb74bbcacb1ec1b436e4f47.png" alt="image"/></td>
+<td><ul>
+<li>Вам интересно, сколько стоит разработка онлайн-игры?</li>
+<li>Вы хотите узнать, как организовать разработку ММО от идеи до релиза?</li>
+<li>Задумывались ли вы о технических трудностях создания онлайн-игр?</li>
+</ul></td>
+</tr>
+</table><br/>
+<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; В цикле статей «Разработка ММО РПГ – практическое руководство» вы получите ответы на эти и многие другие вопросы. Все цифры реальны. Все схемы, таблицы, исходный код, диаграммы БД и прочее взяты из реально существующего и успешно работающего проекта.<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; В тексте будет много отсылок к геймплею и внешнему виду нашей игры <a href="http://starghosts.com/index.php?trsrc=108&amp;trclcl=1&amp;tringame=1"><b>«Звездные Призраки»</b></a>. Я постараюсь излагать материал так, чтобы вам не было нужды вникать (и играть) в наш продукт, но для лучшего понимания материала желательно потратить пару минут и посмотреть, как это все выглядит.<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; Готовы? Тогда в путь! <a href="http://habrahabr.ru/post/254799/#habracut">Подробности</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 00:15:13 GMT</pubDate>
+		<author>starni</author>
+		<category><![CDATA[Разработка]]></category><category><![CDATA[Flex]]></category><category><![CDATA[Flash-платформа]]></category><category><![CDATA[C++]]></category><category><![CDATA[Блог компании Starni Games]]></category>
+		<category><![CDATA[разработка]]></category><category><![CDATA[С++]]></category><category><![CDATA[flash]]></category><category><![CDATA[flex]]></category><category><![CDATA[Away3D]]></category><category><![CDATA[игры]]></category><category><![CDATA[менеджмент проектов]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[Android Volley custom Loader]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254801/</guid>
+		<link>http://habrahabr.ru/post/254801/</link>
+		<description><![CDATA[<br/>В статье изложен подход реализации Loader для загрузки разных объектов в одном Activity. В качестве сетевой библиотеки загрузки используется Volley. Метод подходит когда в одном Activity имеется несколько одновременно использующихся фрагментов<br/>
+<br/>
+<pre><code class="java">public class MainActivity extends ActionBarActivity
+        implements LoaderManager.LoaderCallbacks&lt;DataHolder&gt;{
+    ...
+    @Override
+    public void onLoadFinished(Loader&lt;DataHolder&gt; loader, DataHolder data) {
+        if ( loader.getId() == DataLoader.LOADER_ICONS_ID ){
+           doIcons( data.getIcons() );
+        } else if( loader.getId() == DataLoader.LOADER_STYLES_ID ){
+           doStyles( data.getStyles() );
+        } else if( loader.getId() == DataLoader.LOADER_ICONSETS_ID ){
+           doIconSets( data.getIconSets() );
+        }
+</code></pre><br/>
+<br/>
+ <a href="http://habrahabr.ru/post/254801/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 03:41:08 GMT</pubDate>
+		<author>app-z</author>
+		<category><![CDATA[Разработка под Android]]></category>
+		<category><![CDATA[android]]></category><category><![CDATA[loaders]]></category><category><![CDATA[volley]]></category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Из песочницы] Кормушка для животных с применением ATTiny85]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254829/</guid>
+		<link>http://habrahabr.ru/post/254829/</link>
+		<description><![CDATA[<br/><img src="http://lolsnaps.com/upload_pic/AutomaticCatFeeder-69991.jpg"/><br/>
+<br/>
+Собираясь в прошлом году в отпуск, решил приобрести автоматическую кормушку для домашних питомцев. Выбор был сделан в пользу изделия брэнда Animal Planet. Уже точно не помню, почему именно была выбрана эта модель, вероятно, на тот момент времени она оптимально сочетала в себе невысокую цену и достаточно хорошие потребительские свойства, представление о которых были составлены по отзывам на веб сайте amazon.com. <br/>
+<br/>
+Устройство было в скором времени получено по почте, собрано, включено и в него был засыпан корм. Кошки сразу одобрили дизайн, радостно прибегали на шум моторчика и принимались поедать корм еще до того, как он заканчивал высыпаться сверху из бачка. Все бы хорошо, если бы не одно «но». Мне никак не удавалось добиться того, чтобы корм высыпался по установленному расписанию, ради чего собственно и затевалось дело. Но пытливые руки не сдавались и экспериментально было выяснено, что расписание иногда работает, правда, только при условии, что изначально не устанавливалось реальное время на часах. Поняв, что имею дело с явным «багом», обратился к продавцу и тот радостно заверил, что это известная проблема и мне бесплатно заменят устройство более новой версией, лишенной указанной проблемы. <br/>
+ <a href="http://habrahabr.ru/post/254829/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 09:00:48 GMT</pubDate>
+		<author>apple01</author>
+		<category><![CDATA[Электроника для начинающих]]></category><category><![CDATA[DIY или Сделай Сам]]></category><category><![CDATA[Arduino]]></category>
+		<category>Attiny85</category><category>diy-проекты</category>
+	</item>
+
+		<item>
+		<title><![CDATA[[Из песочницы] Генерация кода во время исполнения или «Пишем свой JIT-компилятор»]]></title>
+		<guid isPermaLink="true">http://habrahabr.ru/post/254831/</guid>
+		<link>http://habrahabr.ru/post/254831/</link>
+		<description><![CDATA[<br/><img src="http://habrastorage.org/files/b81/f0c/560/b81f0c5608924b22bd38c2bed670481d.png" align="left"/><br/>
+Современные компиляторы очень хорошо умеют оптимизировать код. Они удаляют никогда не выполняющиеся условные переходы, вычисляют константные выражения, избавляются от бессмысленных арифметических действий (умножение на 1, сложение с 0). Они оперируют данными, известными на момент компиляции.<br/>
+В момент выполнения информации об обрабатываемых данных гораздо больше. На её основании можно выполнить дополнительные оптимизации и ускорить работу программы.<br/>
+Оптимизированный для частного случая алгоритм всегда работает быстрее универсального (по крайней мере, не медленнее).<br/>
+Что если для каждого набора входных данных генерировать оптимальный для обработки этих данных алгоритм?<br/>
+Очевидно, часть времени выполнения уйдёт на оптимизацию, но если оптимизированный код выполняется часто, затраты окупятся с лихвой. <br/>
+Как же технически это сделать? Довольно просто — в программу включается мини-компилятор, генерирующий необходимый код. Идея не нова, технология называется “компиляция времени исполнения” или JIT-компиляция. Ключевую роль JIT-компиляция играет в виртуальных машинах и интерпретаторах языков программирования. Часто используемые участки кода (или байт-кода) преобразуются в машинные команды, что позволяет сильно повысить производительность.<br/>
+Java, Python, C#, JavaScript, Flash ActionScript — неполный (совсем неполный) список языков, в которых это используется. Я предлагаю решить конкретную задачу с использованием этой технологии и посмотреть, что получится.<br/>
+ <a href="http://habrahabr.ru/post/254831/#habracut">Читать дальше &rarr;</a>]]></description>
+		
+		<pubDate>Fri, 03 Apr 2015 09:10:05 GMT</pubDate>
+		<author>informhunter</author>
+		<category><![CDATA[Программирование]]></category><category><![CDATA[Компиляторы]]></category><category><![CDATA[C]]></category>
+		<category>компилятор</category><category>JIT-компилятор</category><category>jit</category><category>интерпретатор</category>
+	</item>
+
+
+
+</channel>
+</rss>
