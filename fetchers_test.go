@@ -9,6 +9,9 @@ import (
     "github.com/SlyMarbo/rss"
 )
 
+var test_rss_file = "testdata/test.rss"
+var test_invalid_rss_file = "testdata/invalid.rss"
+
 func TestFetchFile(t *testing.T) {
     feed, err := FetchFile(test_rss_file)
     if feed == nil || err != nil {
