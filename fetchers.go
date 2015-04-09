@@ -2,7 +2,7 @@ package rsspipes
 
 import (
     "io/ioutil"
-    "github.com/SlyMarbo/rss"
+    "github.com/KonishchevDmitry/go-rss"
 )
 
 type FutureFeedResult struct {
@@ -21,7 +21,7 @@ func FetchFile(path string) (feed *rss.Feed, err error) {
 }
 
 func FutureFetch(fetchFunc FetchFunc, url string) FutureFeed {
-    c := make(FutureFeed)
+    c := make(FutureFeed, 1)
 
     go func() {
         feed, err := fetchFunc(url)

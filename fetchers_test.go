@@ -4,9 +4,6 @@ import (
     "os"
     "reflect"
     "testing"
-    "time"
-
-    "github.com/SlyMarbo/rss"
 )
 
 var test_rss_file = "testdata/test.rss"
@@ -47,14 +44,8 @@ func TestFutureFetch(t *testing.T) {
     feed, err := FetchFile(test_rss_file)
     result := <-FutureFetch(FetchFile, test_rss_file)
 
-    for _, f := range []*rss.Feed{feed, result.Feed} {
-        if f != nil {
-            f.Refresh = time.Time{}
-        }
-    }
-
     if !reflect.DeepEqual(result.Feed, feed) {
-        t.Errorf("Feed:\n%v\nvs\n%v", result.Feed, feed)
+        t.Errorf("Feed:\n%s\nvs\n%s", result.Feed, feed)
     }
 
     if err != result.Err {

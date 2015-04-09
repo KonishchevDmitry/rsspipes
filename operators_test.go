@@ -1,28 +1,83 @@
 package rsspipes
 
 import (
+    "errors"
     "reflect"
     "time"
     "testing"
-    "github.com/SlyMarbo/rss"
+
+    "github.com/KonishchevDmitry/go-rss"
 )
 
 func TestUnion(t *testing.T) {
-    feed1 := &rss.Feed{
+    feed1, feed2, expectedFeed, resultFeed := newTestData()
+
+    Union(resultFeed, feed1, feed2)
+
+    if !reflect.DeepEqual(resultFeed, expectedFeed) {
+        t.Fatalf("Invalid result feed:\n%s\nvs\n%s", resultFeed, expectedFeed)
+    }
+}
+
+func TestUnionFutures(t *testing.T) {
+    feed1, feed2, expectedFeed, resultFeed := newTestData()
+
+    futureFeed1 := make(FutureFeed, 1)
+    futureFeed2 := make(FutureFeed, 1)
+
+    go func() {
+        futureFeed1 <- FutureFeedResult{Feed: feed1}
+        futureFeed2 <- FutureFeedResult{Feed: feed2}
+    }()
+
+    Union(resultFeed, feed1, feed2)
+
+    if !reflect.DeepEqual(resultFeed, expectedFeed) {
+        t.Fatalf("Invalid result feed:\n%s\nvs\n%s", resultFeed, expectedFeed)
+    }
+}
+
+func TestUnionFuturesWithError(t *testing.T) {
+    err := errors.New("Mocked error")
+    _, feed2, _, resultFeed := newTestData()
+
+    resultFeedCopy := &rss.Feed{}
+    *resultFeedCopy = *resultFeed
+
+    futureFeed1 := make(FutureFeed, 1)
+    futureFeed2 := make(FutureFeed, 1)
+
+    go func() {
+        futureFeed1 <- FutureFeedResult{Err: err}
+        futureFeed2 <- FutureFeedResult{Feed: feed2}
+    }()
+
+    unionErr := UnionFutures(resultFeed, futureFeed1, futureFeed2)
+    if unionErr != err {
+        t.Fatalf("Invalid union error: %s.", unionErr)
+    }
+
+    if !reflect.DeepEqual(resultFeed, resultFeedCopy) {
+        t.Fatalf("Result feed has been changed:\n%s\nvs\n%s", resultFeed, resultFeedCopy)
+    }
+}
+
+func newTestData() (feed1 *rss.Feed, feed2 *rss.Feed, expectedFeed *rss.Feed, resultFeed *rss.Feed) {
+    feed1 = &rss.Feed{
         Items: []*rss.Item{
-            &rss.Item{ID: "2", Date: time.Time{}.Add(2 * time.Second)},
-            &rss.Item{ID: "non-unique", Date: time.Time{}.Add(3 * time.Second)},
+            newItem("2", 2),
+            newItem("non-unique", 3),
         },
     }
 
-    feed2 := &rss.Feed{
+    feed2 = &rss.Feed{
         Items: []*rss.Item{
-            &rss.Item{ID: "non-unique", Date: time.Time{}.Add(3 * time.Second)},
-            &rss.Item{ID: "1", Date: time.Time{}.Add(1 * time.Second)},
+            newItem("non-unique", 3),
+            newItem("1", 1),
         },
     }
 
-    expectedFeed := &rss.Feed{
+    expectedFeed = &rss.Feed{
         Title: "Union title",
         Link: "http://example.com/rss",
         Description: "Union description",
@@ -34,13 +89,18 @@ func TestUnion(t *testing.T) {
         },
     }
 
-    result := Union(&UnionFeedParams{
+    resultFeed = &rss.Feed{
         Title: expectedFeed.Title,
         Link: expectedFeed.Link,
         Description: expectedFeed.Description,
-    }, feed1, feed2)
+    }
 
-    if !reflect.DeepEqual(result, expectedFeed) {
-        t.Fatalf("Items:\n%v\nvs\n%v", result, expectedFeed)
+    return
+}
+
+func newItem(id string, date time.Duration) *rss.Item {
+    return &rss.Item{
+        Guid: rss.Guid{Id: id},
+        Date: rss.Date{time.Time{}.Add(date * time.Second)},
     }
 }
