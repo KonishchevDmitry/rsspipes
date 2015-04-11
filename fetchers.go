@@ -41,6 +41,21 @@ func FutureFetch(fetchFunc FetchFunc, uri string) FutureFeed {
     return c
 }
 
+func GetFutures(futureFeeds ...FutureFeed) (feeds []*rss.Feed, err error) {
+    feeds = make([]*rss.Feed, len(futureFeeds))
+
+    for i, futureFeed := range(futureFeeds) {
+        futureResult := <-futureFeed
+        feeds[i] = futureResult.Feed
+
+        if futureResult.Err != nil {
+            err = futureResult.Err
+        }
+    }
+
+    return
+}
+
 func logError(uri string, err error) {
     if err != nil {
         log.Error("Failed to fetch %s: %s", uri, err)

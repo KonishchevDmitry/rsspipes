@@ -47,18 +47,7 @@ func Union(result *rss.Feed, feeds ...*rss.Feed) {
 
 
 func UnionFutures(result *rss.Feed, futureFeeds ...FutureFeed) error {
-    var err error = nil
-    feeds := make([]*rss.Feed, len(futureFeeds))
-
-    for i, futureFeed := range(futureFeeds) {
-        futureResult := <-futureFeed
-        feeds[i] = futureResult.Feed
-
-        if futureResult.Err != nil {
-            err = futureResult.Err
-        }
-    }
-
+    feeds, err := GetFutures(futureFeeds...)
     if err != nil {
         return err
     }
