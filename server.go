@@ -5,12 +5,9 @@ import (
     "net/http"
 
     "github.com/KonishchevDmitry/go-rss"
-
-    "rsspipes/util"
 )
 
 var rootRegistered = false
-var log = util.MustGetLogger("server")
 
 func Serve(addressPort string) error {
     log.Info("Listening on %s...", addressPort)
@@ -48,8 +45,8 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
     }
 
     if err != nil {
-        error := fmt.Sprintf("Failed to generate the RSS feed: %s.", err)
-        http.Error(w, error, http.StatusInternalServerError)
+        log.Error("Failed to generate %s RSS feed: %s", r.RequestURI, err)
+        http.Error(w, fmt.Sprintf("Failed to generate the RSS feed: %s", err), http.StatusInternalServerError)
         return
     }
 
