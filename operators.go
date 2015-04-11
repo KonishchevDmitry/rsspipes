@@ -11,11 +11,30 @@ type sortByDate []*rss.Item
 func (items sortByDate) Len() int {
     return len(items)
 }
+
 func (items sortByDate) Swap(i, j int) {
     items[i], items[j] = items[j], items[i]
 }
+
 func (items sortByDate) Less(i, j int) bool {
     return items[i].Date.Unix() < items[j].Date.Unix()
+}
+
+
+func Filter(feed *rss.Feed, filter func(*rss.Item) (block bool)) {
+    size := 0
+    items := feed.Items
+
+    for _, item := range(items) {
+        if !filter(item) {
+            items[size] = item
+            size++
+        }
+    }
+
+    if size != len(items) {
+        feed.Items = items[:size]
+    }
 }
 
 
@@ -44,7 +63,6 @@ func Union(result *rss.Feed, feeds ...*rss.Feed) {
 
     result.Items = items
 }
-
 
 func UnionFutures(result *rss.Feed, futureFeeds ...FutureFeed) error {
     feeds, err := GetFutures(futureFeeds...)
