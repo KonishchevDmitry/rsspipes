@@ -53,6 +53,6 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
         return
     }
 
-    w.Header().Set("Content-Type", "application/rss+xml")
+    w.Header().Set("Content-Type", rss.ContentType)
     w.Write(rssData)
 }
