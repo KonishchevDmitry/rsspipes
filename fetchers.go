@@ -1,7 +1,7 @@
 package rsspipes
 
 import (
-    "io/ioutil"
+    "os"
     "github.com/KonishchevDmitry/go-rss"
 )
 
@@ -13,11 +13,12 @@ type FutureFeed chan FutureFeedResult
 type FetchFunc func(string) (*rss.Feed, error)
 
 func FetchFile(path string) (feed *rss.Feed, err error) {
-    data, err := ioutil.ReadFile(path)
+    file, err := os.Open(path)
     if err != nil {
         return
     }
-    return rss.Parse(data)
+    defer file.Close()
+    return rss.Read(file)
 }
 
 func FutureFetch(fetchFunc FetchFunc, url string) FutureFeed {
