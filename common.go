@@ -1,5 +1,5 @@
 package rsspipes
 
-import "rsspipes/util"
+import "github.com/KonishchevDmitry/rsspipes/util"
 
 var log = util.MustGetLogger("rsspipes")
