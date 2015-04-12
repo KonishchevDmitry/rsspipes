@@ -31,9 +31,9 @@ func TestFilter(t *testing.T) {
     Filter(feed, func(item *rss.Item) bool {
         switch item.Guid.Id {
             case "2", "3", "5":
-                return true
-            default:
                 return false
+            default:
+                return true
         }
     })
 

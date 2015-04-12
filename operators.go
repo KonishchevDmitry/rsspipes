@@ -21,12 +21,12 @@ func (items sortByDate) Less(i, j int) bool {
 }
 
 
-func Filter(feed *rss.Feed, filter func(*rss.Item) (block bool)) {
+func Filter(feed *rss.Feed, filter func(*rss.Item) (allow bool)) {
     size := 0
     items := feed.Items
 
     for _, item := range(items) {
-        if !filter(item) {
+        if filter(item) {
             items[size] = item
             size++
         }
