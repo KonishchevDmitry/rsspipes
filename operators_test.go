@@ -140,6 +140,54 @@ func newItem(id string, date time.Duration) *rss.Item {
 }
 
 
+func TestLimit(t *testing.T) {
+    feed := &rss.Feed{
+        Items: []*rss.Item{
+            newItem("1", 1),
+            newItem("2", 2),
+            newItem("3", 3),
+            newItem("4", 4),
+            newItem("5", 5),
+        },
+    }
+
+    origFeed := &rss.Feed{
+        Items: []*rss.Item{
+            newItem("1", 1),
+            newItem("2", 2),
+            newItem("3", 3),
+            newItem("4", 4),
+            newItem("5", 5),
+        },
+    }
+
+    expectedFeed := &rss.Feed{
+        Items: []*rss.Item{
+            newItem("3", 3),
+            newItem("4", 4),
+            newItem("5", 5),
+        },
+    }
+
+    Limit(feed, 5)
+    checkResult(t, feed, origFeed, "Limit has stripped the feed when not expected to")
+
+    Limit(feed, 3)
+    checkResult(t, feed, expectedFeed, "Invalid Limit() result")
+}
+
+func TestLimitWithEmptyFeed(t *testing.T) {
+    feed := &rss.Feed{}
+    expectedFeed := &rss.Feed{}
+
+    Limit(feed, 1)
+    checkResult(t, feed, expectedFeed, "Limit has modified an empty feed")
+
+    Limit(feed, 0)
+    checkResult(t, feed, expectedFeed, "Limit has modified an empty feed")
+}
+
+
 func checkResult(t *testing.T, feed *rss.Feed, expectedFeed *rss.Feed, message string) {
     if !reflect.DeepEqual(feed, expectedFeed) {
         t.Fatalf("%s:\n%s\nvs\n%s", message, feed, expectedFeed)

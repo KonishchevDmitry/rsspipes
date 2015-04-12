@@ -58,10 +58,8 @@ func Union(result *rss.Feed, feeds ...*rss.Feed) {
         items = append(items, item)
     }
 
-    var sortedItems sortByDate = items
-    sort.Sort(sortedItems)
-
     result.Items = items
+    sortItems(result)
 }
 
 func UnionFutures(result *rss.Feed, futureFeeds ...FutureFeed) error {
@@ -72,4 +70,18 @@ func UnionFutures(result *rss.Feed, futureFeeds ...FutureFeed) error {
 
     Union(result, feeds...)
     return nil
+}
+
+
+func Limit(feed *rss.Feed, maxItemNum uint) {
+    itemsNum := uint(len(feed.Items))
+    if itemsNum > maxItemNum {
+        feed.Items = feed.Items[itemsNum - maxItemNum:]
+    }
+}
+
+
+func sortItems(feed *rss.Feed) {
+    var sortedItems sortByDate = feed.Items
+    sort.Sort(sortedItems)
 }

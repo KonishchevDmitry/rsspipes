@@ -14,7 +14,11 @@ type FetchFunc func(string) (*rss.Feed, error)
 
 func FetchUrl(url string) (feed *rss.Feed, err error) {
     feed, err = rss.Get(url)
-    logError(url, err)
+    if err != nil {
+        logError(url, err)
+        return
+    }
+    sortItems(feed)
     return
 }
 
@@ -27,7 +31,13 @@ func FetchFile(path string) (feed *rss.Feed, err error) {
     }
     defer file.Close()
 
-    return rss.Read(file)
+    feed, err = rss.Read(file)
+    if err != nil {
+        return
+    }
+
+    sortItems(feed)
+    return
 }
 
 func FutureFetch(fetchFunc FetchFunc, uri string) FutureFeed {
