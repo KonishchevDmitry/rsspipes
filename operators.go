@@ -25,7 +25,7 @@ func Filter(feed *rss.Feed, filter func(*rss.Item) (allow bool)) {
     size := 0
     items := feed.Items
 
-    for _, item := range(items) {
+    for _, item := range items {
         if filter(item) {
             items[size] = item
             size++
