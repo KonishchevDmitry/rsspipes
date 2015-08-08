@@ -1,6 +1,7 @@
 package rsspipes
 
 import (
+    "bytes"
     "errors"
     "fmt"
     "io/ioutil"
@@ -13,6 +14,8 @@ import (
 
     "code.google.com/p/go-charset/charset"
     _ "code.google.com/p/go-charset/data"
+
+    "github.com/PuerkitoBio/goquery"
 
     "github.com/KonishchevDmitry/go-rss"
 )
@@ -113,37 +116,20 @@ func FetchData(url string, allowedMediaTypes []string) (mediaType string, data s
     return
 }
 
-func FetchHtml(url string) (data string, err error) {
+func FetchHtml(url string) (doc *goquery.Document, err error) {
     defer func() { err = handleError(url, err) }()
 
-    _, data, err = FetchData(url, []string{"text/html"})
+    _, data, err := FetchData(url, []string{"text/html"})
     if err != nil {
         return
     }
 
-    doc, err := html.Parse(strings.NewReader(data))
+    htmlDoc, err := parseHtml(url, data)
     if err != nil {
         return
     }
 
-    encoding := getHtmlCharset(doc, url)
-    if encoding == "" {
-        return
-    }
-
-    charsetReader, err := charset.NewReader(encoding, strings.NewReader(data))
-    if err != nil {
-        err = fmt.Errorf("The document has an unknown charset encoding: %s.", encoding)
-        return
-    }
-
-    decodedBytes, err := ioutil.ReadAll(charsetReader)
-    if err != nil {
-        err = fmt.Errorf("Failed to decode the document using %s charset: %s", err)
-        return
-    }
-
-    data = string(decodedBytes)
+    doc = goquery.NewDocumentFromNode(htmlDoc)
 
     return
 }
@@ -170,6 +156,34 @@ func checkMediaType(response *http.Response, allowedMediaTypes []string) (mediaT
             return
         }
     }
+
+    return
+}
+
+func parseHtml(url string, data string) (doc *html.Node, err error) {
+    doc, err = html.Parse(strings.NewReader(data))
+    if err != nil {
+        return
+    }
+
+    encoding := strings.ToLower(getHtmlCharset(doc, url))
+    if encoding == "" || encoding == "utf-8" && encoding == "utf8" {
+        return
+    }
+
+    charsetReader, err := charset.NewReader(encoding, strings.NewReader(data))
+    if err != nil {
+        err = fmt.Errorf("The document has an unknown charset encoding: %s.", encoding)
+        return
+    }
+
+    decodedBytes, err := ioutil.ReadAll(charsetReader)
+    if err != nil {
+        err = fmt.Errorf("Failed to decode the document using %s charset: %s", err)
+        return
+    }
+
+    doc, err = html.Parse(bytes.NewReader(decodedBytes))
 
     return
 }
