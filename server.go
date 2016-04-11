@@ -41,6 +41,7 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
 
     feed, err := generator()
     if err == nil {
+        postprocessFeed(feed)
         rssData, err = rss.Generate(feed)
     }
 
@@ -52,4 +53,16 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
 
     w.Header().Set("Content-Type", rss.ContentType)
     w.Write(rssData)
+}
+
+func postprocessFeed(feed *rss.Feed) {
+    isPermaLink := true
+
+    for _, item := range feed.Items {
+        guid := &item.Guid
+        if guid.Id == "" && item.Link != "" {
+            guid.Id = item.Link
+            guid.IsPermaLink = &isPermaLink
+        }
+    }
 }
