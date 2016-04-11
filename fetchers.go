@@ -28,9 +28,13 @@ type FutureFeed chan FutureFeedResult
 type FetchFunc func(string) (*rss.Feed, error)
 
 func FetchUrl(url string) (feed *rss.Feed, err error) {
+    return FetchUrlWithParams(url, rss.GetParams{})
+}
+
+func FetchUrlWithParams(url string, params rss.GetParams) (feed *rss.Feed, err error) {
     defer func() { err = handleError(url, err) }()
 
-    feed, err = rss.Get(url)
+    feed, err = rss.GetWithParams(url, params)
     if err != nil {
         return
     }
@@ -86,9 +90,7 @@ func GetFutures(futureFeeds ...FutureFeed) (feeds []*rss.Feed, err error) {
 func FetchData(url string, allowedMediaTypes []string) (mediaType string, data string, err error) {
     defer func() { err = handleError(url, err) }()
 
-    client := &http.Client{
-        Timeout: rss.DefaultGetParams.Timeout,
-    }
+    client := rss.ClientFromParams(rss.GetParams{})
 
     response, err := client.Get(url)
     if err != nil {
