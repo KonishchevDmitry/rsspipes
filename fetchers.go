@@ -11,9 +11,7 @@ import (
     "strings"
 
     "golang.org/x/net/html"
-
-    "code.google.com/p/go-charset/charset"
-    _ "code.google.com/p/go-charset/data"
+    "golang.org/x/net/html/charset"
 
     "github.com/PuerkitoBio/goquery"
 
@@ -173,7 +171,7 @@ func parseHtml(url string, data string) (doc *html.Node, err error) {
         return
     }
 
-    charsetReader, err := charset.NewReader(encoding, strings.NewReader(data))
+    charsetReader, err := charset.NewReaderLabel(encoding, strings.NewReader(data))
     if err != nil {
         err = fmt.Errorf("The document has an unknown charset encoding: %s.", encoding)
         return
