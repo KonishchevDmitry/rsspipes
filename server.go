@@ -10,7 +10,7 @@ import (
 var rootRegistered = false
 
 func Serve(addressPort string) error {
-	log.Info("Listening on %s...", addressPort)
+	log.Infof("Listening on %s...", addressPort)
 
 	if !rootRegistered {
 		register("/", http.NotFound)
@@ -27,7 +27,7 @@ func Register(path string, generator func() (*rss.Feed, error)) {
 
 func register(path string, handler func(http.ResponseWriter, *http.Request)) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		log.Info("%s %s", r.Method, r.RequestURI)
+		log.Infof("%s %s", r.Method, r.RequestURI)
 		handler(w, r)
 	})
 
@@ -46,7 +46,7 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
 	}
 
 	if err != nil {
-		log.Error("Failed to generate %s RSS feed: %s", r.RequestURI, err)
+		log.Errorf("Failed to generate %s RSS feed: %s", r.RequestURI, err)
 		http.Error(w, fmt.Sprintf("Failed to generate the RSS feed: %s", err), http.StatusInternalServerError)
 		return
 	}

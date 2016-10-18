@@ -213,7 +213,7 @@ func getHtmlCharset(doc *html.Node, uri string) (charset string) {
 			_, params, err := mime.ParseMediaType(attrs["content"])
 
 			if err != nil {
-				log.Error("Got an invalid content type of '%s' from <meta http-equiv=\"Content-Type\"> tag: '%s'.",
+				log.Errorf("Got an invalid content type of '%s' from <meta http-equiv=\"Content-Type\"> tag: '%s'.",
 					uri, attrs["content"])
 			} else if params["charset"] != "" && isHttpCharset {
 				charset = params["charset"]
@@ -242,7 +242,7 @@ func findHtmlNode(node *html.Node, name string) *html.Node {
 func handleError(uri string, err error) error {
 	if err != nil {
 		err = fmt.Errorf("Failed to fetch %s: %s", uri, err)
-		log.Error("%s", err)
+		log.Errorf("%s", err)
 	}
 
 	return err
