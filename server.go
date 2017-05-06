@@ -3,6 +3,7 @@ package rsspipes
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/KonishchevDmitry/go-rss"
 )
@@ -37,22 +38,28 @@ func register(path string, handler func(http.ResponseWriter, *http.Request)) {
 }
 
 func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Feed, error)) {
-	var rssData []byte
-
 	feed, err := generator()
+
 	if err == nil {
 		postprocessFeed(feed)
-		rssData, err = rss.Generate(feed)
-	}
-
-	if err != nil {
+		writeFeed(w, feed)
+	} else {
 		log.Errorf("Failed to generate %s RSS feed: %s", r.RequestURI, err)
-		http.Error(w, fmt.Sprintf("Failed to generate the RSS feed: %s", err), http.StatusInternalServerError)
-		return
-	}
 
-	w.Header().Set("Content-Type", rss.ContentType)
-	w.Write(rssData)
+		if temporaryErr, ok := err.(temporary); ok && temporaryErr.Temporary() {
+			writeError(w, err)
+		} else {
+			message := "rsspipes feed generation error"
+			writeFeed(w, &rss.Feed{
+				Title: message,
+				Items: []*rss.Item{&rss.Item{
+					Title:       message,
+					Guid:        rss.Guid{Id: "rsspipes-error-" + time.Now().UTC().Format("02-01-2006")},
+					Description: err.Error(),
+				}},
+			})
+		}
+	}
 }
 
 func postprocessFeed(feed *rss.Feed) {
@@ -65,4 +72,19 @@ func postprocessFeed(feed *rss.Feed) {
 			guid.IsPermaLink = &isPermaLink
 		}
 	}
+}
+
+func writeFeed(w http.ResponseWriter, feed *rss.Feed) {
+	data, err := rss.Generate(feed)
+
+	if err == nil {
+		w.Header().Set("Content-Type", rss.ContentType)
+		w.Write(data)
+	} else {
+		writeError(w, err)
+	}
+}
+
+func writeError(w http.ResponseWriter, err error) {
+	http.Error(w, fmt.Sprintf("Failed to generate the RSS feed: %s", err), http.StatusInternalServerError)
 }
