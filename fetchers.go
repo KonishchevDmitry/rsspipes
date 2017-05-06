@@ -25,6 +25,20 @@ type FutureFeedResult struct {
 type FutureFeed chan FutureFeedResult
 type FetchFunc func(string) (*rss.Feed, error)
 
+type fetchError struct {
+	Uri string
+	Err error
+}
+
+func (e *fetchError) Temporary() bool {
+	err, ok := e.Err.(temporary)
+	return ok && err.Temporary()
+}
+
+func (e *fetchError) Error() string {
+	return fmt.Sprintf("Failed to fetch %s: %s", e.Uri, e.Err)
+}
+
 func FetchUrl(url string) (feed *rss.Feed, err error) {
 	return FetchUrlWithParams(url, rss.GetParams{})
 }
@@ -97,7 +111,11 @@ func FetchData(url string, allowedMediaTypes []string) (mediaType string, data s
 	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusOK {
-		err = errors.New(response.Status)
+		if response.StatusCode >= 500 && response.StatusCode < 600 {
+			err = &temporaryError{response.Status}
+		} else {
+			err = errors.New(response.Status)
+		}
 		return
 	}
 
@@ -132,6 +150,18 @@ func FetchHtml(url string) (doc *goquery.Document, err error) {
 	doc = goquery.NewDocumentFromNode(htmlDoc)
 
 	return
+}
+
+type temporaryError struct {
+	message string
+}
+
+func (*temporaryError) Temporary() bool {
+	return true
+}
+
+func (e *temporaryError) Error() string {
+	return e.message
 }
 
 func checkMediaType(response *http.Response, allowedMediaTypes []string) (mediaType string, err error) {
@@ -241,7 +271,8 @@ func findHtmlNode(node *html.Node, name string) *html.Node {
 
 func handleError(uri string, err error) error {
 	if err != nil {
-		err = fmt.Errorf("Failed to fetch %s: %s", uri, err)
+		// Note: net/url.Error is also implements temporary interface
+		err = &fetchError{Uri: uri, Err: err}
 		log.Errorf("%s", err)
 	}
 
