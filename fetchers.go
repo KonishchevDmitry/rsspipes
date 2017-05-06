@@ -6,8 +6,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"mime"
+	"net"
 	"net/http"
+	"net/url"
 	"os"
+	"runtime"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -24,20 +27,6 @@ type FutureFeedResult struct {
 }
 type FutureFeed chan FutureFeedResult
 type FetchFunc func(string) (*rss.Feed, error)
-
-type fetchError struct {
-	Uri string
-	Err error
-}
-
-func (e *fetchError) Temporary() bool {
-	err, ok := e.Err.(temporary)
-	return ok && err.Temporary()
-}
-
-func (e *fetchError) Error() string {
-	return fmt.Sprintf("Failed to fetch %s: %s", e.Uri, e.Err)
-}
 
 func FetchUrl(url string) (feed *rss.Feed, err error) {
 	return FetchUrlWithParams(url, rss.GetParams{})
@@ -150,18 +139,6 @@ func FetchHtml(url string) (doc *goquery.Document, err error) {
 	doc = goquery.NewDocumentFromNode(htmlDoc)
 
 	return
-}
-
-type temporaryError struct {
-	message string
-}
-
-func (*temporaryError) Temporary() bool {
-	return true
-}
-
-func (e *temporaryError) Error() string {
-	return e.message
 }
 
 func checkMediaType(response *http.Response, allowedMediaTypes []string) (mediaType string, err error) {
@@ -277,4 +254,41 @@ func handleError(uri string, err error) error {
 	}
 
 	return err
+}
+
+type fetchError struct {
+	Uri string
+	Err error
+}
+
+func (e *fetchError) Temporary() bool {
+	// MacOS doesn't differentiate "no such host" error from DNS lookup errors, so add this workaround here
+	if runtime.GOOS == "darwin" {
+		if urlError, ok := e.Err.(*url.Error); ok {
+			if netErr, ok := urlError.Err.(*net.OpError); ok {
+				if dnsErr, ok := netErr.Err.(*net.DNSError); ok && dnsErr.Err == "no such host" {
+					return true
+				}
+			}
+		}
+	}
+
+	err, ok := e.Err.(temporary)
+	return ok && err.Temporary()
+}
+
+func (e *fetchError) Error() string {
+	return fmt.Sprintf("Failed to fetch %s: %s", e.Uri, e.Err)
+}
+
+type temporaryError struct {
+	message string
+}
+
+func (*temporaryError) Temporary() bool {
+	return true
+}
+
+func (e *temporaryError) Error() string {
+	return e.message
 }
