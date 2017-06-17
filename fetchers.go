@@ -262,14 +262,19 @@ type fetchError struct {
 }
 
 func (e *fetchError) Temporary() bool {
-	// MacOS doesn't differentiate "no such host" error from DNS lookup errors, so add this workaround here
-	if runtime.GOOS == "darwin" {
-		if urlError, ok := e.Err.(*url.Error); ok {
+	if urlError, ok := e.Err.(*url.Error); ok {
+		// MacOS doesn't differentiate "no such host" error from DNS lookup errors, so add this workaround here
+		if runtime.GOOS == "darwin" {
 			if netErr, ok := urlError.Err.(*net.OpError); ok {
 				if dnsErr, ok := netErr.Err.(*net.DNSError); ok && dnsErr.Err == "no such host" {
 					return true
 				}
 			}
+		}
+
+		switch urlError.Err.Error() {
+		case "EOF", "unexpected EOF":
+			return true
 		}
 	}
 
