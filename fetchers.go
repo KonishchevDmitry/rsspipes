@@ -124,12 +124,12 @@ func FetchData(url string, allowedMediaTypes []string) (mediaType string, data s
 }
 
 func FetchHtml(url string) (doc *goquery.Document, err error) {
-	defer func() { err = handleError(url, err) }()
-
 	_, data, err := FetchData(url, []string{"text/html"})
 	if err != nil {
 		return
 	}
+
+	defer func() { err = handleError(url, err) }()
 
 	htmlDoc, err := parseHtml(url, data)
 	if err != nil {
