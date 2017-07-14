@@ -250,7 +250,9 @@ func handleError(uri string, err error) error {
 	if err != nil {
 		// Note: net/url.Error is also implements temporary interface
 		err = &fetchError{Uri: uri, Err: err}
-		log.Errorf("%s", err)
+		// FIXME: A temporary debug message to understand the reasons of some temporary errors which considered to be
+		// persistent.
+		log.Errorf("%s (%#v)", err, err.(*fetchError).Err)
 	}
 
 	return err
