@@ -250,9 +250,6 @@ func handleError(uri string, err error) error {
 	if err != nil {
 		// Note: net/url.Error is also implements temporary interface
 		err = &fetchError{Uri: uri, Err: err}
-		// FIXME: A temporary debug message to understand the reasons of some temporary errors which considered to be
-		// persistent.
-		log.Errorf("%s (%#v)", err, err.(*fetchError).Err)
 	}
 
 	return err
@@ -265,10 +262,17 @@ type fetchError struct {
 
 func (e *fetchError) Temporary() bool {
 	if urlError, ok := e.Err.(*url.Error); ok {
-		// MacOS doesn't differentiate "no such host" error from DNS lookup errors, so add this workaround here
-		if runtime.GOOS == "darwin" {
-			if netErr, ok := urlError.Err.(*net.OpError); ok {
+		if netErr, ok := urlError.Err.(*net.OpError); ok {
+			// MacOS doesn't differentiate "no such host" error from DNS lookup errors, so add this workaround here
+			if runtime.GOOS == "darwin" {
 				if dnsErr, ok := netErr.Err.(*net.DNSError); ok && dnsErr.Err == "no such host" {
+					return true
+				}
+			}
+
+			if syscallErr, ok := netErr.Err.(*os.SyscallError); ok {
+				switch syscallErr.Syscall {
+				case "connect", "write", "read":
 					return true
 				}
 			}
