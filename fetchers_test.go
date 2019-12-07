@@ -20,7 +20,7 @@ func TestFetchFileUnexisting(t *testing.T) {
 	path := "invalid-unexisting-file"
 
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
-		t.Fatal("File %s exists.")
+		t.Fatalf("File %s exists.", path)
 	}
 
 	feed, err := FetchFile(path)

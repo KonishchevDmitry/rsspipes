@@ -174,7 +174,7 @@ func parseHtml(url string, data string) (doc *html.Node, err error) {
 	}
 
 	encoding := strings.ToLower(getHtmlCharset(doc, url))
-	if encoding == "" || encoding == "utf-8" && encoding == "utf8" {
+	if encoding == "" || encoding == "utf-8" || encoding == "utf8" {
 		return
 	}
 
@@ -186,7 +186,7 @@ func parseHtml(url string, data string) (doc *html.Node, err error) {
 
 	decodedBytes, err := ioutil.ReadAll(charsetReader)
 	if err != nil {
-		err = fmt.Errorf("Failed to decode the document using %s charset: %s", err)
+		err = fmt.Errorf("Failed to decode the document using %s charset: %s", encoding, err)
 		return
 	}
 
