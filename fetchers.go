@@ -2,6 +2,7 @@ package rsspipes
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -18,6 +19,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 
+	logging "github.com/KonishchevDmitry/go-easy-logging"
 	"github.com/KonishchevDmitry/go-rss"
 )
 
@@ -26,13 +28,13 @@ type FutureFeedResult struct {
 	Err  error
 }
 type FutureFeed chan FutureFeedResult
-type FetchFunc func(string) (*rss.Feed, error)
+type FetchFunc func(context.Context, string) (*rss.Feed, error)
 
-func FetchUrl(url string) (feed *rss.Feed, err error) {
-	return FetchUrlWithParams(url, rss.GetParams{})
+func FetchUrl(ctx context.Context, url string) (feed *rss.Feed, err error) {
+	return FetchUrlWithParams(ctx, url, rss.GetParams{})
 }
 
-func FetchUrlWithParams(url string, params rss.GetParams) (feed *rss.Feed, err error) {
+func FetchUrlWithParams(ctx context.Context, url string, params rss.GetParams) (feed *rss.Feed, err error) {
 	defer func() { err = handleError(url, err) }()
 
 	feed, err = rss.GetWithParams(url, params)
@@ -44,7 +46,7 @@ func FetchUrlWithParams(url string, params rss.GetParams) (feed *rss.Feed, err e
 	return
 }
 
-func FetchFile(path string) (feed *rss.Feed, err error) {
+func FetchFile(ctx context.Context, path string) (feed *rss.Feed, err error) {
 	defer func() { err = handleError(path, err) }()
 
 	file, err := os.Open(path)
@@ -62,11 +64,11 @@ func FetchFile(path string) (feed *rss.Feed, err error) {
 	return
 }
 
-func FutureFetch(fetchFunc FetchFunc, uri string) FutureFeed {
+func FutureFetch(ctx context.Context, fetchFunc FetchFunc, uri string) FutureFeed {
 	c := make(FutureFeed, 1)
 
 	go func() {
-		feed, err := fetchFunc(uri)
+		feed, err := fetchFunc(ctx, uri)
 		c <- FutureFeedResult{Feed: feed, Err: err}
 	}()
 
@@ -88,7 +90,7 @@ func GetFutures(futureFeeds ...FutureFeed) (feeds []*rss.Feed, err error) {
 	return
 }
 
-func FetchData(url string, allowedMediaTypes []string) (mediaType string, data string, err error) {
+func FetchData(ctx context.Context, url string, allowedMediaTypes []string) (mediaType string, data string, err error) {
 	defer func() { err = handleError(url, err) }()
 
 	client := rss.ClientFromParams(rss.GetParams{})
@@ -123,15 +125,15 @@ func FetchData(url string, allowedMediaTypes []string) (mediaType string, data s
 	return
 }
 
-func FetchHtml(url string) (doc *goquery.Document, err error) {
-	_, data, err := FetchData(url, []string{"text/html"})
+func FetchHtml(ctx context.Context, url string) (doc *goquery.Document, err error) {
+	_, data, err := FetchData(ctx, url, []string{"text/html"})
 	if err != nil {
 		return
 	}
 
 	defer func() { err = handleError(url, err) }()
 
-	htmlDoc, err := parseHtml(url, data)
+	htmlDoc, err := parseHtml(ctx, url, data)
 	if err != nil {
 		return
 	}
@@ -167,13 +169,13 @@ func checkMediaType(response *http.Response, allowedMediaTypes []string) (mediaT
 	return
 }
 
-func parseHtml(url string, data string) (doc *html.Node, err error) {
+func parseHtml(ctx context.Context, url string, data string) (doc *html.Node, err error) {
 	doc, err = html.Parse(strings.NewReader(data))
 	if err != nil {
 		return
 	}
 
-	encoding := strings.ToLower(getHtmlCharset(doc, url))
+	encoding := strings.ToLower(getHtmlCharset(ctx, doc, url))
 	if encoding == "" || encoding == "utf-8" || encoding == "utf8" {
 		return
 	}
@@ -195,7 +197,7 @@ func parseHtml(url string, data string) (doc *html.Node, err error) {
 	return
 }
 
-func getHtmlCharset(doc *html.Node, uri string) (charset string) {
+func getHtmlCharset(ctx context.Context, doc *html.Node, uri string) (charset string) {
 	node := findHtmlNode(doc, "html")
 	if node != nil {
 		node = findHtmlNode(node, "head")
@@ -220,7 +222,7 @@ func getHtmlCharset(doc *html.Node, uri string) (charset string) {
 			_, params, err := mime.ParseMediaType(attrs["content"])
 
 			if err != nil {
-				log.Errorf("Got an invalid content type of '%s' from <meta http-equiv=\"Content-Type\"> tag: '%s'.",
+				logging.L(ctx).Errorf("Got an invalid content type of '%s' from <meta http-equiv=\"Content-Type\"> tag: '%s'.",
 					uri, attrs["content"])
 			} else if params["charset"] != "" && isHttpCharset {
 				charset = params["charset"]

@@ -1,6 +1,7 @@
 package rsspipes
 
 import (
+	"context"
 	"os"
 	"reflect"
 	"testing"
@@ -10,7 +11,7 @@ var test_rss_file = "testdata/test.rss"
 var test_invalid_rss_file = "testdata/invalid.rss"
 
 func TestFetchFile(t *testing.T) {
-	feed, err := FetchFile(test_rss_file)
+	feed, err := FetchFile(context.Background(), test_rss_file)
 	if feed == nil || err != nil {
 		t.Fatalf("Failed to fetch test %s file: %s.", test_rss_file, err)
 	}
@@ -23,7 +24,7 @@ func TestFetchFileUnexisting(t *testing.T) {
 		t.Fatalf("File %s exists.", path)
 	}
 
-	feed, err := FetchFile(path)
+	feed, err := FetchFile(context.Background(), path)
 	if feed != nil || err == nil {
 		t.Fatalf("Successfully fetched an unexising file: %v.", feed)
 	}
@@ -34,15 +35,15 @@ func TestFetchFileInvalid(t *testing.T) {
 		t.Fatalf("Test invalid file is broken: %s.", err)
 	}
 
-	feed, err := FetchFile(test_invalid_rss_file)
+	feed, err := FetchFile(context.Background(), test_invalid_rss_file)
 	if feed != nil || err == nil {
 		t.Fatalf("Successfully fetched an invalid RSS file: %v.", feed)
 	}
 }
 
 func TestFutureFetch(t *testing.T) {
-	feed, err := FetchFile(test_rss_file)
-	result := <-FutureFetch(FetchFile, test_rss_file)
+	feed, err := FetchFile(context.Background(), test_rss_file)
+	result := <-FutureFetch(context.Background(), FetchFile, test_rss_file)
 
 	if !reflect.DeepEqual(result.Feed, feed) {
 		t.Errorf("Feed:\n%s\nvs\n%s", result.Feed, feed)

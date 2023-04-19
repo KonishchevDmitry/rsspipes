@@ -1,26 +1,36 @@
 package rsspipes
 
 import (
+	"context"
 	"fmt"
+	"net"
 	"net/http"
 	"time"
 
+	logging "github.com/KonishchevDmitry/go-easy-logging"
 	"github.com/KonishchevDmitry/go-rss"
 )
 
 var rootRegistered = false
 
-func Serve(addressPort string) error {
-	log.Infof("Listening on %s...", addressPort)
+func Serve(ctx context.Context, addressPort string) error {
+	logging.L(ctx).Infof("Listening on %s...", addressPort)
 
 	if !rootRegistered {
 		register("/", http.NotFound)
 	}
 
-	return http.ListenAndServe(addressPort, nil)
+	server := http.Server{
+		Addr: addressPort,
+		BaseContext: func(net.Listener) context.Context {
+			return ctx
+		},
+	}
+
+	return server.ListenAndServe()
 }
 
-func Register(path string, generator func() (*rss.Feed, error)) {
+func Register(path string, generator func(context.Context) (*rss.Feed, error)) {
 	register(path, func(w http.ResponseWriter, r *http.Request) {
 		generate(w, r, generator)
 	})
@@ -28,7 +38,8 @@ func Register(path string, generator func() (*rss.Feed, error)) {
 
 func register(path string, handler func(http.ResponseWriter, *http.Request)) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		log.Infof("%s %s", r.Method, r.RequestURI)
+		ctx := r.Context()
+		logging.L(ctx).Infof("%s %s", r.Method, r.RequestURI)
 		handler(w, r)
 	})
 
@@ -37,14 +48,15 @@ func register(path string, handler func(http.ResponseWriter, *http.Request)) {
 	}
 }
 
-func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Feed, error)) {
-	feed, err := generator()
+func generate(w http.ResponseWriter, r *http.Request, generator func(context.Context) (*rss.Feed, error)) {
+	ctx := r.Context()
+	feed, err := generator(ctx)
 
 	if err == nil {
 		postprocessFeed(feed)
 		writeFeed(w, feed)
 	} else {
-		log.Errorf("Failed to generate %s RSS feed: %s", r.RequestURI, err)
+		logging.L(ctx).Errorf("Failed to generate %s RSS feed: %s", r.RequestURI, err)
 
 		if temporaryErr, ok := err.(temporary); ok && temporaryErr.Temporary() {
 			writeError(w, err)
@@ -52,7 +64,7 @@ func generate(w http.ResponseWriter, r *http.Request, generator func() (*rss.Fee
 			message := "rsspipes feed generation error"
 			writeFeed(w, &rss.Feed{
 				Title: message,
-				Items: []*rss.Item{&rss.Item{
+				Items: []*rss.Item{{
 					Title:       message,
 					Guid:        rss.Guid{Id: "rsspipes-error-" + time.Now().UTC().Format("02-01-2006")},
 					Description: err.Error(),
